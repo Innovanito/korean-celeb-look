@@ -18,8 +18,6 @@ def classify_image(image_base64_data, file_path=None):
 
     print("before for loop")
 
-    print("image_data", image_base64_data)
-
     for img in imgs:
         scalled_raw_img = cv2.resize(img, (32, 32))
         img_har = w2d(img, 'db1', 5)
@@ -33,8 +31,16 @@ def classify_image(image_base64_data, file_path=None):
 
         print("model building")
 
-        result.append(__model.predict(final)[0])
+        result.append({
+            'class': class_number_to_name(__model.predict(final)[0]),
+            'class_probability': np.round(__model.predict_proba(final)*100, 2).tolist()[0],
+            'class_dictionary': __class_name_to_number
+        })
     return result
+
+
+def class_number_to_name(class_num):
+    return __class_number_to_name[class_num]
 
 
 def load_saved_artifacts():
@@ -92,5 +98,7 @@ def get_b64_test_image():
 
 
 if __name__ == "__main__":
-    print(classify_image(get_b64_test_image(), None))
-    # print(classify_image(None, "./test_images/federer1.jpg"))
+    load_saved_artifacts()
+    # print(classify_image(get_b64_test_image(), None))
+    print(classify_image(None, "./sp27-Roger-Federer.jpg"))
+    print(classify_image(None, "./messi_family.jpg"))
