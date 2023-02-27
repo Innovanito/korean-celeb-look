@@ -1,7 +1,11 @@
 from flask import Flask, request, jsonify
 import util
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+
+CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5500/UI/app.html"}})
 
 
 @app.route('/classify_image', methods=['POST', 'GET'])
