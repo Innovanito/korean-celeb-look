@@ -1,20 +1,20 @@
 from flask import Flask, request, jsonify
 import util
-from flask_cors import CORS
 
 
 app = Flask(__name__)
 
-CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:5500/UI/app.html"}})
-
 
 @app.route('/classify_image', methods=['POST', 'GET'])
 def classify_image():
+    # 이미지의 b64 string 데이터를 잘 가져오는지 print 찍어보기
     image_data = request.form['image_data']
 
     response = jsonify(util.classify_image(image_data))
 
-    response.header.add('Access-Control-Allow-Origin', '*')
+    print('response type in server 2', type(response))
+
+    response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
 
@@ -22,6 +22,19 @@ def classify_image():
 @app.route('/hello')
 def hello():
     return "Hello World!"
+
+
+@app.route('/give_string', methods=['POST'])
+def give_string():
+    string_data = request.form['string_data']
+
+    response = jsonify(string_data)
+
+    response.header.add('Access-Control-Allow-Origin', '*')
+
+    print('response in give_string', response)
+
+    return
 
 
 if __name__ == "__main__":

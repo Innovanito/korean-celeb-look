@@ -100,5 +100,6 @@ def get_b64_test_image():
 if __name__ == "__main__":
     load_saved_artifacts()
     # print(classify_image(get_b64_test_image(), None))
-    print(classify_image(None, "./sp27-Roger-Federer.jpg"))
+    # print(classify_image(None, "./sp27-Roger-Federer.jpg"))
+    print(classify_image('./b64.txt'))
     # print(classify_image(None, "./messi_family.jpg"))
