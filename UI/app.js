@@ -26,6 +26,32 @@ function init() {
         }, function (data, status) {
             console.log('data', data)
             console.log('status: ' , status);
+
+            if (!data || data.length == 0) {
+                $("#resultHolder").hide()
+                $("#divClassTable").hide()
+                $("#error").show()
+            }
+
+            let match = null
+            let bestScore = -1
+
+            for (let i = 0; i < data.length; i++) {
+                let maxScoreForeThisClass = Math.max(...data[i].class_probability)
+
+                if (maxScoreForeThisClass > bestScore) {
+                    match = data[i]
+                    bestScore = maxScoreForeThisClass
+                }
+            }
+
+            if (match) {
+                $("#error").hide();
+                $("#resultHolder").show()
+                $("#divClassTable").show()
+
+                $("#resultHolder").html($(`[data-player="${match.class}"]`).html())
+            }
         })
 
         
@@ -41,6 +67,7 @@ $(document).ready(function() {
     $("#error").hide();
     $("#resultHolder").hide();
     $("#divClassTable").hide();
+
 
     init();
 });
